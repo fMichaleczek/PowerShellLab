@@ -1,37 +1,5 @@
 define(() => {
-    var parent = document.getElementById('uno-body');
-    
-    var newContent = document.createTextNode('PowerShell WASM Started:');
-    parent.appendChild(newContent, parent.lastChild);
-    
-    var newTextarea = document.createElement('textarea');
-    newTextarea.id="code" ;
-    newTextarea.rows="5";
-    newTextarea.cols="50";
-    newTextarea.value = "$PSVersionTable";
-    parent.appendChild(newTextarea, parent.lastChild);
-    
-    var newButton = document.createElement('button');
-    newButton.id = "submitCode";
-    newButton.type="button";
-    newButton.textContent="Submit Code";
-    parent.appendChild(newButton, parent.lastChild);
-    
-    var newTextarea2 = document.createElement('textarea');
-    newTextarea2.id="output" ;
-    newTextarea2.rows="20";
-    newTextarea2.cols="50";
-    parent.appendChild(newTextarea2, parent.lastChild);
-    
-    
-    var newTextarea3 = document.createElement('textarea');
-    newTextarea3.id="outputerror" ;
-    newTextarea3.rows="10";
-    newTextarea3.cols="50";
-    parent.appendChild(newTextarea3, parent.lastChild);
-    
-    
-    // document.body.innerHTML = "<div id='results' />";
+    document.body.innerHTML = "<div style='width:80%;padding-left:10%;'>PowerShell WASM Started:<br><textarea id='code' rows='5' cols='50'></textarea><br><button id='submitCode' type='button'>Submit Code</button><br><textarea id='output' rows='20' cols='50'></textarea><br><textarea id='outputerror' rows='10' cols='50'></textarea></div>";
 });
 
 const invokeCode = Module.mono_bind_static_method("[powershell-wasm] Microsoft.PowerShell.Wasm.Program:InvokeCode");
