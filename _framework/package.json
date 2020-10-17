@@ -1,0 +1,18 @@
+{
+  "name": "blazor.blockly",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "audit": "npm audit fix",
+    "update": "npm update",
+    "build": "webpack"
+  },
+  "dependencies": {
+    "blockly": "^3.20200924.2"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^5.1.1",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
+  }
+}

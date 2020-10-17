@@ -1,0 +1,19 @@
+{
+  "resources": {
+    "script": {
+      "profile.ps1": "sha256-HBl8G4XPfAD3vWcfaZeQBzmbHuugf5UyG8qQMVcvyJg="
+    },
+    "module": {
+      "Microsoft.PowerShell.Host": "sha256-ir\/t0VQ7jn0SEnp6R3\/x8p\/oVNhGDcGKr+o3cQd4kes="
+    },
+    "profile": {
+      "profile.ps1": "sha256-FJAXs6yBscK2lYK6EaGFdjKoYyrd4mQA8pvlvt12tbQ="
+    },
+    "help": {
+      "blahblah.hlp": "sha256-FJAXs6yBscK2lYK6EaGFdjKoYyrd4mQA8pvlvt12tbQ="
+    },
+    "cache": {
+      "profile.ps1": "sha256-FJAXs6yBscK2lYK6EaGFdjKoYyrd4mQA8pvlvt12tbQ="
+    }
+  }
+}

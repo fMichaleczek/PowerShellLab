@@ -1,39 +1,131 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+﻿<!DOCTYPE html>
+<html>
 <head>
+    <!-- Meta -->
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-
-    <script defer type="text/javascript" src="./require.js"></script>
-    <script type="text/javascript" src="./mono-config.js"></script>
-    <script type="text/javascript" src="./uno-config.js"></script>
-    <script type="text/javascript" src="./bootstrap.js"></script>
-    <script async type="text/javascript" src="./dotnet.js"></script>
-    <link rel="stylesheet" type="text/css" href="./normalize.css" />
-<link rel="stylesheet" type="text/css" href="./uno-bootstrap.css" />
-    <link rel="manifest" href="./manifest.json" />
-<link rel="script" href="./service-worker.js" />
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#fff" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <!-- Title -->
+    <title>PowerShell</title>
+    <!-- Base - Tag Requirement for Blazor WebAssembly -->
+    <base href="https://fMichaleczek.github.io/PowerShellLab/" />
+    <!-- Css - Blazorise Requirements -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <!-- Css - Blazorise -->
+    <link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
+    <link href="_content/Blazorise.Bootstrap/blazorise.bootstrap.css" rel="stylesheet" />
+    <!-- Css - Blazorise Extensions -->
+    <link href="_content/Blazorise.Sidebar/blazorise.sidebar.css" rel="stylesheet" />
+    <link href="_content/Blazorise.Snackbar/blazorise.snackbar.css" rel="stylesheet" />
+    <link href="_content/Blazorise.TreeView/blazorise.treeview.css" rel="stylesheet" />
+    <!-- Css - Blazor XtermJS -->
+    <link href="_content/Microsoft.PowerShell.Blazor.Component.XtermJS/css/blazor.xtermjs.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+    <!-- Css - App -->
+    <link href="css/app.css" rel="stylesheet" />
+    <!-- Css - Blazor WebAssembly Scoped Feature -->
+    <link href="_framework/scoped.styles.css" rel="stylesheet" />
 </head>
 <body>
-    <div id="uno-body" class="container-fluid uno-body">
-        <div class="uno-loader"
-             loading-position="top"
-             loading-alert="none">
-
-            <img class="logo"
-                 src=""
-                 title="Uno is loading your application" />
-
-            <progress></progress>
-            <span class="alert"></span>
+    <!-- Blazor UI - App -->
+    <app>
+        <div class="sk-cube-grid">
+            <div class="sk-cube sk-cube1"></div>
+            <div class="sk-cube sk-cube2"></div>
+            <div class="sk-cube sk-cube3"></div>
+            <div class="sk-cube sk-cube4"></div>
+            <div class="sk-cube sk-cube5"></div>
+            <div class="sk-cube sk-cube6"></div>
+            <div class="sk-cube sk-cube7"></div>
+            <div class="sk-cube sk-cube8"></div>
+            <div class="sk-cube sk-cube9"></div>
         </div>
+    </app>
+    <!-- Blazor UI - Error -->
+    <div id="blazor-error-ui">
+        <environment include="Staging,Production">
+            An error has occurred. This application may no longer respond until reloaded.
+        </environment>
+        <environment include="Development">
+            An unhandled exception has occurred. See browser dev tools for details.
+        </environment>
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
     </div>
-    <noscript>
-        <p>This application requires Javascript and WebAssembly to be enabled.</p>
-    </noscript>
+    <!-- Javascript - Brotli Decoder -->
+    <script type="text/javascript" src="js/google-brotli-decode.js"></script>
+    <!-- Javascript - Blazor WebAssembly -->
+    <script type="text/javascript" src="_framework/blazor.webassembly.js" autostart="false"></script>
+    <script type="text/javascript">
+        const environmentName = 'Debug';
+        Blazor.start({
+            loadBootResource: function (type, name, defaultUri, integrity) {
+                console.log(`Loading: '${type}', '${name}', '${defaultUri}', '${integrity}'`);
+                if (type !== 'dotnetjs' && location.hostname !== 'localhost') {
+                    // When hosting on static hosting solutions that don't support statically-compressed file content negotiation,
+                    // such as GitHub Pages, consider configuring the app to fetch and decode Brotli compressed files
+                    return (async function () {
+                        const response = await fetch(defaultUri + '.br', { cache: 'no-cache' });
+                        if (!response.ok) {
+                            throw new Error(response.statusText);
+                        }
+                        const originalResponseBuffer = await response.arrayBuffer();
+                        const originalResponseArray = new Int8Array(originalResponseBuffer);
+                        const decompressedResponseArray = BrotliDecode(originalResponseArray);
+                        const contentType = type === 'dotnetwasm' ? 'application/wasm' : 'application/octet-stream';
+                        return new Response(decompressedResponseArray, { headers: { 'content-type': contentType } });
+                    })();
+                }
+                else {
+                    // Adds a custom HTTP header to the outbound requests
+                    // To retain the default integrity checking behavior, it's necessary to pass through the 'integrity' parameter
+                    switch (type) {
+                        case 'dotnetwasm':
+                        // case 'dotnetjs':
+                        case 'assembly':
+                        case 'timezonedata':
+                            return (async function () {
+                                const response = await fetch(defaultUri, {
+                                    cache: 'no-cache',
+                                    // integrity: integrity,
+                                    headers: { 'blazor-environment': environmentName }
+                                });
+                                if (!response.ok) {
+                                    throw new Error(response.statusText);
+                                }
+                                return response;
+                            })();
+                    }
+                }
+            }
+        });
+    </script>
+    <!-- Javascript - Blazor Logger -->
+    <script type="text/javascript" src="_content/Blazor.Extensions.Logging/blazor.extensions.logging.js" defer></script>
+    <!-- Javascript - Blazorise Requirements -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <!-- Javascript - Blazorise -->
+    <script type="text/javascript" src="_content/Blazorise/blazorise.js"></script>
+    <script type="text/javascript" src="_content/Blazorise.Bootstrap/blazorise.bootstrap.js"></script>
+    <!-- Javascript - Blazorise Extensions Requirements -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/moment@2.24.0/min/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@1.8.0"></script>
+    <!-- Javascript - Blazorise Extensions -->
+    <script src="_content/Blazorise.Charts/blazorise.charts.js"></script>
+    <script src="_content/Blazorise.Charts.Streaming/blazorise.charts.streaming.js"></script>
+    <!-- Javascript - Blazor Monaco -->
+    <script type="text/javascript" src="_content/BlazorMonaco/lib/monaco-editor/min/vs/loader.js"></script>
+    <script type="text/javascript">
+        require.config({ paths: { 'vs': '_content/BlazorMonaco/lib/monaco-editor/min/vs' } });
+    </script>
+    <script type="text/javascript" src="_content/BlazorMonaco/lib/monaco-editor/min/vs/editor/editor.main.js"></script>
+    <script type="text/javascript" src="_content/BlazorMonaco/jsInterop.js"></script>
+    <!-- Javascript - Blazor XtermJS -->
+    <script type="text/javascript" src="_content/Microsoft.PowerShell.Blazor.Component.XtermJS/js/blazor.xtermjs.js"></script>
+    <!-- Javascript - Blazor Blockly -->
+    <script type="text/javascript" src="_content/Microsoft.PowerShell.Blazor.Component.Blockly/js/Blockly.js"></script>
 </body>
 </html>
