@@ -11,8 +11,8 @@
     "blockly": "^3.20200924.2"
   },
   "devDependencies": {
-    "copy-webpack-plugin": "^5.1.1",
-    "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11"
+    "copy-webpack-plugin": "^11.0.0",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
   }
 }
